@@ -1,4 +1,4 @@
 import { Repository } from 'typeorm';
-import { Question } from './question.entity';
+import { Question } from '../entity/question.entity';
 
 export interface QuestionRespository extends Repository<Question> {}
