@@ -12,7 +12,7 @@ export class QuizService {
   ) {}
 
   getAll() {
-    return [1, 2, 3];
+    return this.quizRepository.find();
   }
 
   async createNewQuiz(createQuizDto: CreateQuizDto) {
