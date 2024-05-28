@@ -11,8 +11,13 @@ export class QuizService {
     private quizRepository: Repository<Quiz>,
   ) {}
 
-  getAll() {
-    return this.quizRepository.find();
+  async getAll(): Promise<Quiz[]> {
+    return await this.quizRepository
+      .createQueryBuilder('q')
+      .leftJoinAndSelect('q.questions', 'qt')
+      .leftJoinAndSelect('qt.options', 'o')
+      .take(1)
+      .getMany();
   }
 
   async getById(id: number) {
