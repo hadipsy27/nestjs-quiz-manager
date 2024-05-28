@@ -1,5 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Option } from '../entity/option.entity';
 
-@EntityRepository(Option)
 export class OptionRepository extends Repository<Option> {}

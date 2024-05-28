@@ -6,15 +6,27 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateOptionDtoDto } from '../dto/create-option.dto';
+import { CreateOptionDto } from '../dto/create-option.dto';
+import { QuestionService } from '../service/question.service';
 
 @Controller('question/option')
 export class OptionController {
-  constructor(private optionService: OptionService) {}
+  constructor(
+    private optionService: OptionService,
+    private questionService: QuestionService,
+  ) {}
 
   @Post('create')
   @UsePipes(ValidationPipe)
-  async saveOptionToQuestion(@Body() createOptionDto: CreateOptionDtoDto) {
-    return createOptionDto;
+  async saveOptionToQuestion(@Body() createOptionDto: CreateOptionDto) {
+    const question = await this.questionService.findById(
+      createOptionDto.questionId,
+    );
+
+    const option = await this.optionService.createOption(
+      createOptionDto,
+      question,
+    );
+    return { question, createOptionDto, option };
   }
 }
