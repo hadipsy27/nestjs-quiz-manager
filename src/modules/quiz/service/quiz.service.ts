@@ -23,7 +23,7 @@ export class QuizService {
   async getById(id: number) {
     const quiz = await this.quizRepository.findOne({
       where: { id },
-      relations: ['questions'],
+      relations: ['questions', 'questions.options'],
     });
     if (!quiz) throw new NotFoundException('Quiz not found');
 
