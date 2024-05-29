@@ -8,9 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    QuizModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
+    QuizModule,
   ],
   controllers: [AppController],
   providers: [AppService],
