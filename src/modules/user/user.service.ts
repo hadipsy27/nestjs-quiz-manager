@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { UserRegisterDtoReq } from './dto/user-register-dto.req';
 import { User } from './user.entity';
 import { AuthService } from '../auth/auth.service';
@@ -11,16 +17,20 @@ export class UserService {
 
   async register(
     userRegisterReq: UserRegisterDtoReq,
-  ): Promise<{ data: any; statusCode: number }> {
+  ): Promise<{ access_token: string }> {
     const user = new User();
     user.name = userRegisterReq.name;
     user.email = userRegisterReq.email;
     user.password = userRegisterReq.password;
 
+    const existingUser = await this.getUserByEmail(userRegisterReq.email);
+    if (existingUser) {
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+    }
+
     const saveUser = await user.save();
     const token = this.authService.generateToken(saveUser);
-    const data = { data: token, statusCode: 200 };
-    return data;
+    return token;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
