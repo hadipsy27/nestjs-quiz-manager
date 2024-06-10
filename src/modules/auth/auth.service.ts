@@ -34,7 +34,7 @@ export class AuthService {
         },
         {
           expiresIn: '15m',
-          secret: this.configService.get('JWT_SECRET'),
+          secret: this.configService.get('APP_SECRET'),
         },
       ),
     };
