@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -12,17 +14,28 @@ import { ConfigService } from '@nestjs/config';
 export class AuthService {
   constructor(
     private configService: ConfigService,
-    private userService: UserService,
+    @Inject(forwardRef(() => UserService)) private userService: UserService,
     private jwtService: JwtService,
   ) {}
+
   async validateUserCreds(email: string, password: string): Promise<any> {
     const user = await this.userService.getUserByEmail(email);
     if (!user) throw new BadRequestException('User Not Found!');
 
-    const isMatch = await bcrypt.compareSync(password, user.password);
-    if (isMatch === false) throw new UnauthorizedException('Password salah!');
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new UnauthorizedException('Incorrect password!');
     console.log(isMatch);
     return user;
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.validateUserCreds(email, password);
+    const token = this.generateToken(user);
+    const result: { data: typeof token; statusCode: 200 } = {
+      data: token,
+      statusCode: 200,
+    };
+    return result;
   }
 
   generateToken(user: any) {
