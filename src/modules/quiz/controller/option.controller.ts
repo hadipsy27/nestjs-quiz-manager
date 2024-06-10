@@ -8,7 +8,9 @@ import {
 } from '@nestjs/common';
 import { CreateOptionDto } from '../dto/create-option.dto';
 import { QuestionService } from '../service/question.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Options')
 @Controller('question/option')
 export class OptionController {
   constructor(

@@ -8,7 +8,9 @@ import {
 import { CreateQuestionDto } from '../dto/create-question.dto';
 import { QuestionService } from '../service/question.service';
 import { QuizService } from '../service/quiz.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Questions')
 @Controller('question')
 export class QuestionController {
   constructor(

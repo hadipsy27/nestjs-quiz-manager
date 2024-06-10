@@ -13,7 +13,9 @@ import { QuizService } from '../service/quiz.service';
 import { CreateQuizDto } from '../dto/create-quiz.dto';
 import { Quiz } from '../entity/quiz.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Quiz')
 @UseGuards(AuthGuard('jwt'))
 @Controller('quiz')
 export class QuizController {
