@@ -6,15 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm.config';
 import { QuizModule } from './modules/quiz/quiz.module';
 import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  // imports: [
-  //   ConfigModule.forRoot({ isGlobal: true }),
-  //   TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-  //   QuizModule,
-  //   UserModule,
-  // ],
-
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -27,6 +21,7 @@ import { UserModule } from './modules/user/user.module';
     }),
     QuizModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
