@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRoles } from './enum/user.enum';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -37,6 +38,9 @@ export class User extends BaseEntity {
   })
   @Column()
   password: string;
+
+  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.MEMBER })
+  role: UserRoles;
 
   @ApiProperty({
     description: 'When the user was created',

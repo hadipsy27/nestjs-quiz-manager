@@ -9,9 +9,10 @@ import { Question } from './entity/question.entity';
 import { OptionController } from './controller/option.controller';
 import { OptionService } from './service/option.service';
 import { Option } from './entity/option.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Quiz, Question, Option])],
+  imports: [TypeOrmModule.forFeature([Quiz, Question, Option]), UserModule],
   controllers: [QuizController, QuestionController, OptionController],
   providers: [QuizService, QuestionService, OptionService],
 })
