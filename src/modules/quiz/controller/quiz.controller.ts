@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Request,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -48,8 +49,10 @@ export class QuizController {
   @Post('/create')
   @UsePipes(ValidationPipe)
   @UseGuards(RolesGuard)
-  @Roles('admin', 'member')
-  async createQuiz(@Body() createQuizDto: CreateQuizDto) {
-    return await this.quizService.createNewQuiz(createQuizDto);
+  @Roles('admin', 'creator')
+  async createQuiz(@Body() createQuizDto: CreateQuizDto, @Request() req) {
+    console.log('User id ' + req.user.id);
+    const userId = req.user.id;
+    return await this.quizService.createNewQuiz(createQuizDto, userId);
   }
 }

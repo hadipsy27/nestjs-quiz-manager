@@ -9,6 +9,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { User } from './user.entity';
+import { UserRoles } from './enum/user.enum';
 
 @ApiTags('Users')
 @Controller('users')
@@ -28,7 +29,25 @@ export class UserController {
     @Body(SETTINGS.VALIDATION_PIPE) userRegisterReq: UserRegisterDtoReq,
   ): Promise<{ data: any; statusCode: number; message: string }> {
     try {
-      const result = await this.userService.register(userRegisterReq);
+      const result = await this.userService.register(
+        userRegisterReq,
+        UserRoles.PARTICIPANT,
+      );
+      return new RegisterResponseDto(result, 200, 'User created successfully');
+    } catch (err) {
+      return new RegisterResponseDto(null, 400, err.message);
+    }
+  }
+
+  @Post('/register/creator')
+  async doUserCreatorRegistration(
+    @Body(SETTINGS.VALIDATION_PIPE) userRegisterReq: UserRegisterDtoReq,
+  ): Promise<{ data: any; statusCode: number; message: string }> {
+    try {
+      const result = await this.userService.register(
+        userRegisterReq,
+        UserRoles.CREATOR,
+      );
       return new RegisterResponseDto(result, 200, 'User created successfully');
     } catch (err) {
       return new RegisterResponseDto(null, 400, err.message);

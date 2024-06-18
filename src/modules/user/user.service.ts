@@ -8,6 +8,7 @@ import {
 import { UserRegisterDtoReq } from './dto/user-register-dto.req';
 import { User } from './user.entity';
 import { AuthService } from '../auth/auth.service';
+import { UserRoles } from './enum/user.enum';
 
 @Injectable()
 export class UserService {
@@ -17,11 +18,13 @@ export class UserService {
 
   async register(
     userRegisterReq: UserRegisterDtoReq,
+    userRole: UserRoles,
   ): Promise<{ access_token: string }> {
     const user = new User();
     user.name = userRegisterReq.name;
     user.email = userRegisterReq.email;
     user.password = userRegisterReq.password;
+    user.role = userRole;
 
     const existingUser = await this.getUserByEmail(userRegisterReq.email);
     if (existingUser) {
@@ -29,8 +32,7 @@ export class UserService {
     }
 
     const saveUser = await user.save();
-    const token = this.authService.generateToken(saveUser);
-    return token;
+    return this.authService.generateToken(saveUser);
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {

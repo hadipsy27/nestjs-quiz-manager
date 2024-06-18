@@ -2,10 +2,13 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Question } from './question.entity';
+import { User } from '../../user/user.entity';
 
 @Entity('quizes')
 export class Quiz extends BaseEntity {
@@ -32,4 +35,12 @@ export class Quiz extends BaseEntity {
 
   @OneToMany(() => Question, (question) => question.quiz)
   questions: Question[];
+
+  //   @ManyToOne(() => User, (user) => user.quizzes)
+  //   user: User;
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  users: User[];
+  quiz: User;
 }

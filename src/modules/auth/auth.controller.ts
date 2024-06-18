@@ -30,6 +30,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('user')
   async getUser(@Request() req): Promise<any> {
-    return this.userService.getUserByEmail(req.user.email);
+    return this.userService.getUserById(req.user.id);
   }
 }

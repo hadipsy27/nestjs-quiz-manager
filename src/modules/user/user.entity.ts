@@ -39,7 +39,7 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.MEMBER })
+  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.PARTICIPANT })
   role: UserRoles;
 
   @ApiProperty({
